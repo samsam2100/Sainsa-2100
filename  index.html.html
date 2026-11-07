@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#17143b">
+<title>معمل الشبكات الغذائية | علوم سادس ابتدائي</title>
+<style>
+:root {
+  --navy: #17143b;
+  --navy2: #24205a;
+  --purple: #7657e8;
+  --purple2: #9b83ff;
+  --blue: #2877d8;
+  --ink: #20213a;
+  --muted: #73758e;
+  --line: #e8e8f2;
+  --bg: #f5f6fc;
+  --white: #fff;
+  --green: #15966b;
+  --green-light: #e8f7f0;
+  --red: #d64d68;
+  --red-light: #fff0f2;
+  --amber: #bd7a18;
+  --amber-light: #fff8eb;
+  --shadow: 0 14px 38px #25205212;
+  --shadow-lg: 0 20px 45px #17143b22;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.65;
+  user-select: none;
+}
+button, input, select { font: inherit; }
+button { cursor: pointer; border: 0; }
+
+.app { min-height: 100vh; display: flex; flex-direction: column; }
+
+/* Top Navigation Bar */
+.topbar {
+  background: linear-gradient(115deg, var(--navy), #292466 68%, #33318a);
+  color: #fff;
+  padding: 18px max(22px, calc((100% - 1250px)/2));
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+.topbar::after {
+  content: "";
+  position: absolute;
+  width: 350px;
+  height: 350px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+  left: 3%;
+  top: -180px;
+  box-shadow: 0 0 0 40px rgba(255, 255, 255, 0.04), 0 0 0 80px rgba(255, 255, 255, 0.02);
+  pointer-events: none;
+}
+.top-inner {
+  max-width: 1250px;
+  margin: auto;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.brand { display: flex; align-items: center; gap: 14px; }
+.brand-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 17px;
+  background: rgba(255, 255, 255, 0.12);
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.brand h1 { font-size: clamp(20px, 2.5vw, 26px); margin: 0; font-weight: 800; }
+.brand p { margin: 2px 0 0; color: #d7d4ff; font-size: 13px; }
+
+.top-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+
+.mode-badge {
+  background: rgba(255,255,255,0.15);
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: bold;
+  border: 1px solid rgba(255,255,255,0.25);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* UI Buttons */
+.btn {
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 13px;
+}
+.btn:hover { transform: translateY(-2px); filter: brightness(1.06); }
+.btn:active { transform: translateY(0); }
+.btn-primary { background: linear-gradient(120deg, var(--purple), #5945c6); color: #fff; box-shadow: 0 6px 16px #7657e844; }
+.btn-light { background: rgba(255, 255, 255, 0.16); color: #fff; border: 1px solid rgba(255, 255, 255, 0.3); }
+.btn-soft { background: #f0edff; color: #573ebd; }
+.btn-soft:hover { background: #e5e0ff; }
+.btn-outline { background: #fff; border: 1px solid var(--line); color: #4d4e69; }
+.btn-danger { background: var(--red-light); color: var(--red); border: 1px solid #f8cacedd; }
+.btn-success { background: var(--green-light); color: var(--green); border: 1px solid #b7ebd5; }
+.btn-amber { background: var(--amber-light); color: var(--amber); border: 1px solid #fce3b8; }
+.btn-sm { padding: 6px 12px; font-size: 12px; border-radius: 8px; }
+
+/* Main Container & Dashboard */
+.container { max-width: 1250px; margin: 25px auto; padding: 0 20px; flex: 1; }
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 25px;
+}
+.stat {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 16px 20px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 15px;
+  background: #f0edff;
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  color: var(--purple);
+}
+.stat strong { display: block; font-size: 24px; color: var(--navy); line-height: 1.1; }
+.stat span { font-size: 12px; color: var(--muted); font-weight: 600; }
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 15px;
+  margin: 30px 0 16px;
+  flex-wrap: wrap;
+}
+.section-head h2 { font-size: 22px; margin: 0; color: var(--navy); font-weight: 800; }
+.section-head p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+
+.filters { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.search, select.search {
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px 14px;
+  min-width: 200px;
+  outline: none;
+  font-size: 13px;
+  transition: 0.2s;
+}
+.search:focus, select.search:focus { border-color: var(--purple); box-shadow: 0 0 0 3px #7657e81c; }
+
+/* Lesson Cards Grid */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+.lesson {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.lesson:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.lesson-banner {
+  padding: 20px;
+  background: linear-gradient(135deg, #efedff, #e4eeff);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+.lesson-emoji { font-size: 40px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
+.tag {
+  font-size: 11px;
+  border-radius: 30px;
+  padding: 5px 12px;
+  background: #fff;
+  color: var(--purple);
+  font-weight: 800;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.lesson-body { padding: 18px 20px; flex: 1; }
+.lesson h3 { margin: 0 0 8px; font-size: 18px; color: var(--navy); }
+.lesson-meta { font-size: 12px; color: var(--muted); display: flex; gap: 14px; flex-wrap: wrap; }
+.lesson-actions { display: flex; gap: 8px; padding: 0 20px 20px; flex-wrap: wrap; }
+.lesson-actions .btn { flex: 1; white-space: nowrap; }
+
+.empty { grid-column: 1/-1; text-align: center; padding: 50px 20px; color: var(--muted); background: #fff; border: 2px dashed #d9d7e9; border-radius: 20px; }
+
+/* Modals System */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(16, 16, 44, 0.7);
+  z-index: 50;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  backdrop-filter: blur(4px);
+}
+.modal-backdrop.show { display: flex; animation: fadeIn 0.2s ease; }
+.modal {
+  background: #fff;
+  width: min(560px, 100%);
+  border-radius: 24px;
+  padding: 26px;
+  box-shadow: 0 25px 80px rgba(0,0,0,0.3);
+  max-height: 90vh;
+  overflow: auto;
+  position: relative;
+}
+.modal h2 { margin: 0 0 16px; color: var(--navy); font-size: 20px; display: flex; align-items: center; gap: 8px; }
+.field { display: grid; gap: 6px; margin: 14px 0; }
+.field label { font-size: 13px; font-weight: 700; color: var(--ink); }
+.field input, .field select, .field textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 11px 14px;
+  background: #fff;
+  outline: none;
+  font-size: 13px;
+}
+.modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 22px; }
+
+/* Lab Fullscreen Overlay */
+.lab-backdrop {
+  position: fixed;
+  inset: 0;
+  background: #11102b;
+  z-index: 100;
+  display: none;
+  overflow: auto;
+  padding: 12px;
+}
+.lab-backdrop.show { display: block; animation: fadeIn 0.25s ease; }
+.lab {
+  max-width: 1320px;
+  margin: 0 auto;
+  background: #f7f8fe;
+  border-radius: 24px;
+  min-height: calc(100vh - 24px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+.lab-header {
+  background: linear-gradient(110deg, var(--navy), #2e2875);
+  color: white;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.lab-header h2 { font-size: 20px; margin: 0; font-weight: 800; }
+.lab-header p { margin: 3px 0 0; color: #d6d2ff; font-size: 12px; }
+
+.lab-content { padding: 18px 22px; flex: 1; display: flex; flex-direction: column; gap: 16px; }
+
+/* Tabs Navigation */
+.tabs { display: flex; gap: 8px; flex-wrap: wrap; border-bottom: 2px solid var(--line); padding-bottom: 12px; }
+.tab {
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: #e6e6f2;
+  color: #555672;
+  font-weight: 700;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+.tab:hover { background: #dadbe9; }
+.tab.active { background: var(--purple); color: #fff; box-shadow: 0 4px 12px rgba(118, 87, 232, 0.3); }
+
+.lab-intro {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 14px 18px;
+  font-size: 13px;
+  color: #494b68;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+
+/* Interactive Workspace Layout */
+.workspace { display: grid; grid-template-columns: minmax(0, 2.1fr) minmax(280px, 0.9fr); gap: 18px; flex: 1; }
+
+.ecosystem {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 16px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow);
+}
+.eco-title { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; }
+.eco-title h3 { margin: 0; font-size: 16px; color: var(--navy); }
+.eco-title small { color: var(--muted); font-size: 12px; }
+
+.eco-canvas {
+  position: relative;
+  min-height: 480px;
+  flex: 1;
+  background: radial-gradient(ellipse at 50% 85%, #e4f7e7 0%, transparent 60%), linear-gradient(to bottom, #f3f7ff, #f9faff);
+  border-radius: 16px;
+  border: 2px dashed #dbdaeb;
+  overflow: hidden;
+}
+.eco-canvas svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+
+/* Creature Nodes */
+.creature {
+  position: absolute;
+  z-index: 3;
+  transform: translate(-50%, -50%);
+  width: 108px;
+  min-height: 80px;
+  border: 2px solid #e1e1f0;
+  background: #ffffff;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 4px;
+  box-shadow: 0 6px 16px rgba(37, 32, 82, 0.08);
+  transition: border-color 0.2s, box-shadow 0.2s, opacity 0.3s;
+  cursor: grab;
+  touch-action: none;
+}
+.creature:active { cursor: grabbing; }
+.creature .emoji { font-size: 30px; line-height: 1.1; pointer-events: none; }
+.creature strong { font-size: 12px; color: var(--navy); margin-top: 2px; pointer-events: none; }
+.creature small { font-size: 10px; color: var(--muted); pointer-events: none; font-weight: 600; }
+
+.creature.selected {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 4px rgba(118, 87, 232, 0.25);
+  background: #fcfbff;
+  animation: pulse 1.5s infinite;
+}
+.creature.missing {
+  opacity: 0.15;
+  filter: grayscale(1);
+  border-style: dashed;
+  pointer-events: none;
+}
+
+/* SVG Energy Flow Arrows */
+.edge { stroke: var(--purple); stroke-width: 3.5; fill: none; marker-end: url(#arrow); stroke-dasharray: 8; animation: dash 30s linear infinite; }
+@keyframes dash { to { stroke-dashoffset: -1000; } }
+@keyframes pulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.04); } }
+
+.side-panel { display: flex; flex-direction: column; gap: 14px; }
+.panel { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 18px; box-shadow: var(--shadow); }
+.panel h3 { font-size: 15px; margin: 0 0 10px; color: var(--navy); display: flex; align-items: center; gap: 6px; }
+.panel p { font-size: 12.5px; color: var(--muted); margin: 4px 0 10px; }
+
+.organism-list { display: grid; gap: 8px; max-height: 220px; overflow-y: auto; padding-left: 4px; }
+.organism-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: #f7f7fc;
+  font-size: 12.5px;
+  border: 1px solid #ededf7;
+}
+
+.message {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #f1efff;
+  color: #5543ae;
+  font-size: 12.5px;
+  line-height: 1.5;
+  border-right: 4px solid var(--purple);
+  margin-top: 8px;
+}
+.message.warn { background: var(--amber-light); color: #8f5b0c; border-right-color: var(--amber); }
+.message.good { background: var(--green-light); color: #0d6e4b; border-right-color: var(--green); }
+.message.danger { background: var(--red-light); color: #a82e46; border-right-color: var(--red); }
+
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 11px; color: var(--muted); margin-top: 12px; padding: 8px; background: #f9f9fe; border-radius: 10px; }
+.dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-left: 4px; }
+
+/* Interactive Quiz & Challenges */
+.quiz-option {
+  display: block;
+  width: 100%;
+  text-align: right;
+  padding: 12px 16px;
+  margin: 8px 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  transition: all 0.2s;
+  font-size: 13px;
+}
+.quiz-option:hover { background: #f5f4fd; border-color: var(--purple2); }
+.quiz-option.correct { background: var(--green-light); border-color: var(--green); color: var(--green); font-weight: bold; }
+.quiz-option.wrong { background: var(--red-light); border-color: var(--red); color: var(--red); }
+
+/* Badges Showcase */
+.badges-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; margin-top: 10px; }
+.badge-card {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 12px;
+  text-align: center;
+  background: #fff;
+  opacity: 0.45;
+  filter: grayscale(1);
+  transition: all 0.3s;
+}
+.badge-card.unlocked { opacity: 1; filter: grayscale(0); border-color: #ffd700; background: linear-gradient(145deg, #fff, #fffdf0); box-shadow: 0 4px 15px rgba(255,215,0,0.2); }
+.badge-icon { font-size: 32px; margin-bottom: 4px; }
+.badge-title { font-size: 11px; font-weight: bold; color: var(--navy); }
+
+/* Group Leaderboard Table */
+.leader-table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 13px; }
+.leader-table th, .leader-table td { padding: 9px 12px; text-align: right; border-bottom: 1px solid var(--line); }
+.leader-table th { background: #f0edff; color: var(--navy); font-size: 12px; }
+
+/* Toast Notifications */
+.toast {
+  position: fixed;
+  bottom: 25px;
+  left: 25px;
+  z-index: 200;
+  background: var(--navy);
+  color: #fff;
+  padding: 14px 22px;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13.5px;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Media Queries for Responsiveness */
+@media (max-width: 960px) {
+  .workspace { grid-template-columns: 1fr; }
+  .side-panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .eco-canvas { min-height: 400px; }
+}
+@media (max-width: 640px) {
+  .top-inner { flex-direction: column; align-items: flex-start; }
+  .top-actions { width: 100%; justify-content: space-between; }
+  .container { padding: 0 12px; margin: 16px auto; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .lab-backdrop { padding: 0; }
+  .lab { border-radius: 0; min-height: 100vh; }
+  .lab-header { padding: 12px; }
+  .lab-content { padding: 10px; }
+  .creature { width: 88px; min-height: 70px; }
+  .creature .emoji { font-size: 24px; }
+  .creature strong { font-size: 11px; }
+}
+.modal-backdrop{z-index:200!important}.toast{z-index:300!important}.tgt{font-weight:800;color:var(--purple)}</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- Top Navigation Bar -->
+  <header class="topbar">
+    <div class="top-inner">
+      <div class="brand">
+        <div class="brand-icon">🧪</div>
+        <div>
+          <h1>المعمل الرقمي للعلوم</h1>
+          <p>الصف السادس الابتدائي · بيئة المحاكاة التفاعلية المتقدمة</p>
+        </div>
+      </div>
+      <div class="top-actions">
+        <div class="mode-badge" id="modeBadge">👤 وضع التعلم الفردي</div>
+        <button class="btn btn-light" id="toggleLabModeBtn">🔄 تغيير الوضع (فردي / جماعي)</button>
+        <button class="btn btn-light" id="guideBtn">📖 دليل الاستخدام</button>
+        <button class="btn btn-light" id="resetLessonsBtn">↻ استعادة الافتراضي</button>
+        <button class="btn btn-primary" id="addLessonBtn">＋ إضافة درس جديد</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="container">
+    <!-- Live Statistics Dashboard -->
+    <section class="stats">
+      <div class="stat">
+        <div class="stat-icon">📚</div>
+        <div><strong id="statLessons">0</strong><span>دروس ومعامل متاحة</span></div>
+      </div>
+      <div class="stat">
+        <div class="stat-icon">⭐</div>
+        <div><strong id="statPoints">0</strong><span>مجموع النقاط</span></div>
+      </div>
+      <div class="stat">
+        <div class="stat-icon">🏆</div>
+        <div><strong id="statBadges">0 / 4</strong><span>الشارات المكتسبة</span></div>
+      </div>
+      <div class="stat">
+        <div class="stat-icon">👥</div>
+        <div><strong id="statGroupCount">1</strong><span>المشاركات (الوضع الحالي)</span></div>
+      </div>
+    </section>
+
+    <!-- Search and Controls Header -->
+    <div class="section-head">
+      <div>
+        <h2>المعامل والتجارب العلمية</h2>
+        <p>اختر درساً لبدء المحاكاة التفاعلية أو قم بإضافة محتوى تعليمي جديد.</p>
+      </div>
+      <div class="filters">
+        <input class="search" id="searchInput" placeholder="ابحث عن درس أو تجربة..." aria-label="بحث">
+        <select class="search" id="typeFilter" aria-label="تصفية النوع">
+          <option value="all">جميع المعامل والتجارب</option>
+          <option value="محاكاة تفاعلية">محاكاة تفاعلية</option>
+          <option value="سحب وإفلات">سحب وإفلات</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Lesson Cards Grid -->
+    <section class="grid" id="lessonGrid" aria-live="polite"></section>
+  </main>
+
+  <footer class="footer" style="text-align:center; padding: 25px; color: var(--muted); font-size: 13px;">
+    المعمل الرقمي للعلوم · مصمم خصيصاً لمنهج العلوم للصف السادس الابتدائي · يعمل بالكامل بدون إنترنت
+  </footer>
+</div>
+
+<!-- Add/Edit Lesson Modal -->
+<div class="modal-backdrop" id="lessonModal" role="dialog" aria-hidden="true">
+  <div class="modal">
+    <h2 id="modalTitle">إضافة درس جديد</h2>
+    <div class="field">
+      <label for="lessonName">اسم الدرس العلمية</label>
+      <input id="lessonName" placeholder="مثال: أجهزة جسم الإنسان">
+    </div>
+    <div class="field">
+      <label for="lessonType">نوع التجربة</label>
+      <select id="lessonType">
+        <option value="محاكاة تفاعلية">محاكاة تفاعلية</option>
+        <option value="سحب وإفلات">سحب وإفلات</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="lessonIcon">رمز الإيموجي المعبر</label>
+      <input id="lessonIcon" value="🔬" maxlength="4">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="saveLessonBtn">حفظ الدرس</button>
+      <button class="btn btn-outline" id="closeLessonModalBtn">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- User Guide Modal -->
+<div class="modal-backdrop" id="guideModal" role="dialog" aria-hidden="true">
+  <div class="modal">
+    <h2>📖 دليل استخدام المعمل الرقمي</h2>
+    <div style="font-size: 13.5px; color: #444; line-height: 1.7;">
+      <p>أهلاً بكِ في المعمل الرقمي للعلوم للصف السادس الابتدائي!</p>
+      <ul style="padding-right: 20px;">
+        <li><b>وضع التعلم الجماعي/الفردي:</b> يمكنك التبديل بين وضع الطالبة الفردي أو وضع شاشة الفصل الذكية لتقسيم الطالبات لمجموعات وتجميع النقاط.</li>
+        <li><b>بناء الشبكة الغذائية:</b> ابدئي بشبكة فارغة: انقري على الكائن المأكول ثم الآكل ليظهر سهم الطاقة بينهما (11 علاقة صحيحة)، أو اسحبي الكائنات لتنظيم موقعها.</li>
+        <li><b>محاكي التوازن البيئي:</b> جربي إخفاء أحد الكائنات الحيّة لملاحظة أثر اختفائه على التوازن البيئي واستكشاف التفسير العلمي.</li>
+        <li><b>تحدي العالمة الصغيرة واختبار نافس:</b> نفذي التحديات المتدرجة وحلي أسئلة نافس للحصول على النقاط وفتح الشارات 🏆.</li>
+      </ul>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="closeGuideModalBtn">فهمت ذلك</button>
+    </div>
+  </div>
+</div>
+
+<!-- Mode Selection Modal -->
+<div class="modal-backdrop" id="modeModal" role="dialog" aria-hidden="true">
+  <div class="modal">
+    <h2>🔄 اختيار وضع التعلم</h2>
+    <div class="field">
+      <label for="userModeSelect">حدد الوضع المناسب الجلسة:</label>
+      <select id="userModeSelect">
+        <option value="individual">👤 الوضع الفردي (استخدام الطالبة المستقل)</option>
+        <option value="group">👥 الوضع الجماعي (عرض الشاشة الذكية للمجموعات)</option>
+      </select>
+    </div>
+    <div id="groupInputContainer" style="display:none;">
+      <div class="field">
+        <label for="studentNameInput">اسم الطالبة (للوضع الفردي):</label>
+        <input id="studentNameInput" placeholder="أدخلي اسمكِ هنا...">
+      </div>
+      <div class="field" id="groupNamesField" style="display:none;">
+        <label for="groupNamesInput">أسماء المجموعات (مفصولة بفارزة):</label>
+        <input id="groupNamesInput" value="مجموعة الأبطال, مجموعة العلماء, مجموعة المبتكرات">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="saveModeBtn">تأكيد وحفظ</button>
+      <button class="btn btn-outline" id="closeModeModalBtn">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- Food Web & Ecosystem Lab Fullscreen Simulation -->
+<div class="lab-backdrop" id="labModal" role="dialog" aria-hidden="true">
+  <div class="lab">
+    <div class="lab-header">
+      <div>
+        <h2 id="labTitle">معمل الشبكات الغذائية والتوازن البيئي</h2>
+        <p>محاكاة تفاعلية للشبكة الغذائية واستكشاف التوازن البيئي للصف السادس</p>
+      </div>
+      <div style="display:flex; gap:10px; align-items:center;">
+        <button class="btn btn-light btn-sm" id="soundToggleBtn">🔊 الصوت: مفعل</button>
+        <button class="btn btn-light btn-sm" id="labModeBtn">👥 الوضع</button><button class="btn btn-light btn-sm" id="labGuideBtn">📖 الدليل</button>
+      </div>
+    </div>
+
+    <div class="lab-content">
+      <!-- Interactive Lab Navigation Tabs -->
+      <div class="tabs">
+        <button class="tab active" data-tab="build">🕸️ بناء الشبكة الغذائية</button>
+        <button class="tab" data-tab="balance">🌿 محاكي التوازن البيئي</button>
+        <button class="tab" data-tab="challenge">⭐ تحدي العالمة الصغيرة</button>
+        <button class="tab" data-tab="quiz">📝 اختبار نافس التفاعلي</button>
+        <button class="tab" data-tab="badges">🏆 الشارات والتقارير</button>
+      </div>
+
+      <div class="lab-intro" id="tabIntroText">
+        <span>قم بسحب وإفلات الكائنات الحيّة لتنظيم موقعها، أو اضغط على كائنين متتاليين لرسم اتجاه انتقال الطاقة (من الغذاء إلى المستهلك).</span>
+        <span id="currentPointsDisplay" style="font-weight:bold; color:var(--purple); background:#f0edff; padding:4px 12px; border-radius:20px;">النقاط: 0</span>
+      </div>
+
+      <div class="workspace">
+        <!-- Interactive Ecosystem Canvas Board -->
+        <section class="ecosystem">
+          <div class="eco-title">
+            <h3>منظومة الشبكة الغذائية</h3>
+            <small id="ecoStatusLabel">انقر على كائن حي أول ثم الكائن المستهلك</small>
+          </div>
+          <div class="eco-canvas" id="ecoCanvas">
+            <svg id="edgeSvg" viewBox="0 0 700 480">
+              <defs>
+                <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L9,3 z" fill="#7657e8"/>
+                </marker>
+              </defs>
+              <g id="edgeLayer"></g>
+            </svg>
+
+            <!-- Organism Nodes (Draggable & Selectable) -->
+            <div class="creature" data-id="grass" style="left:50%; top:86%;"><span class="emoji">🌿</span><strong>النباتات</strong><small>منتِجات</small></div>
+            <div class="creature" data-id="grasshopper" style="left:18%; top:58%;"><span class="emoji">🦗</span><strong>الجراد</strong><small>مستهلك أولي</small></div>
+            <div class="creature" data-id="rabbit" style="left:50%; top:50%;"><span class="emoji">🐇</span><strong>الأرنب</strong><small>مستهلك أولي</small></div>
+            <div class="creature" data-id="mouse" style="left:82%; top:58%;"><span class="emoji">🐭</span><strong>الفأر</strong><small>مستهلك أولي</small></div>
+            <div class="creature" data-id="frog" style="left:18%; top:22%;"><span class="emoji">🐸</span><strong>الضفدع</strong><small>مستهلك ثانوي</small></div>
+            <div class="creature" data-id="fox" style="left:50%; top:18%;"><span class="emoji">🦊</span><strong>الثعلب</strong><small>مستهلك ثانوي</small></div>
+            <div class="creature" data-id="owl" style="left:82%; top:22%;"><span class="emoji">🦉</span><strong>البومة</strong><small>مستهلك ثانوي</small></div>
+            <div class="creature" data-id="decomposer" style="left:84%; top:86%;"><span class="emoji">🍄</span><strong>المحللات</strong><small>محللات</small></div>
+          </div>
+
+          <div class="legend">
+            <span><i class="dot" style="background:#15966b"></i>منتِجات</span>
+            <span><i class="dot" style="background:#2877d8"></i>مستهلكات أولية وثانوية</span>
+            <span><i class="dot" style="background:#bd7a18"></i>محللات</span>
+            <span><b>ملاحظة:</b> السهم يشير دائماً إلى اتجاه انتقال الطاقة (من الكائن المأكول إلى الآكل)</span>
+          </div>
+
+          <div class="lab-controls" style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;">
+            <button class="btn btn-amber btn-sm" id="showAnswerBtn">💡 اعرضي الحل</button>
+            <button class="btn btn-soft btn-sm" id="resetNetworkBtn">↺ إعادة ضبط الشبكة</button>
+            <button class="btn btn-outline btn-sm" id="clearSelectBtn">إلغاء التحديد</button>
+          </div>
+        </section>
+
+        <!-- Dynamic Dynamic Side Panel -->
+        <aside class="side-panel" id="dynamicSidePanel">
+          <!-- Build Mode Content -->
+          <div class="panelTabContent" id="tabContentBuild">
+            <div class="panel">
+              <h3>💡 طريقة البناء</h3>
+              <p>1. انقر على الكائن المنتِج أو الغذاء (مثل النباتات).<br>2. انقر على الكائن المستهلك (مثل الأرنب).<br>سوف يرتسم سهم يمثل انتقال الطاقة.</p>
+              <div class="message" id="buildFeedback">ابدأي بالنباتات ثم اختاري من يأكلها. الهدف: رسم كل العلاقات الغذائية الصحيحة.</div>
+            </div>
+            <div class="panel">
+              <h3>🔗 العلاقات المترابطة</h3>
+              <div class="organism-list" id="relationshipList"></div>
+            </div>
+          </div>
+
+          <!-- Eco-Balance Mode Content -->
+          <div class="panelTabContent" id="tabContentBalance" style="display:none;">
+            <div class="panel">
+              <h3>🌿 سيناريوهات التوازن</h3>
+              <p>اختر أحد التغيرات لاختبار أثر اختفاء كائن معين في المنظومة:</p>
+              <div style="display:flex; flex-direction:column; gap:6px;">
+                <button class="btn btn-outline btn-sm" onclick="runScenario('rabbit')">🐇 ماذا لو اختفت الأرانب؟</button>
+                <button class="btn btn-outline btn-sm" onclick="runScenario('grasshopper')">🦗 ماذا لو اختفى الجراد؟</button>
+                <button class="btn btn-outline btn-sm" onclick="runScenario('grass')">🌿 ماذا لو قلت النباتات؟</button>
+                <button class="btn btn-outline btn-sm" onclick="runScenario('fox')">🦊 ماذا لو اختفت الثعالب؟</button>
+                <button class="btn btn-outline btn-sm" onclick="runScenario('decomposer')">🍄 ماذا لو اختفت المحللات؟</button>
+              </div>
+            </div>
+            <div class="panel">
+              <h3>📊 التفسير العلمي المحاكى</h3>
+              <div class="message good" id="balanceExplanation">اختر كائناً لمشاهدة التأثير العلمي المفصل.</div>
+              <small style="color:var(--muted); display:block; margin-top:8px;">* تنويه تربوي: هذا نموذج تعليمي مبسط لتوقع التأثيرات ولا يعبر عن التغير اللحظي في الطبيعة.</small>
+            </div>
+          </div>
+
+          <!-- Little Scientist Challenge Tab Content -->
+          <div class="panelTabContent" id="tabContentChallenge" style="display:none;">
+            <div class="panel">
+              <h3>⭐ تحدي العالمة الصغيرة</h3>
+              <div id="challengeBox">
+                <p id="challengeQuestion" style="font-weight:bold; color:var(--navy);">المستوى 1: أين تبدأ الطاقة في الشبكة الغذائية؟</p>
+                <div id="challengeOptions"></div>
+                <div class="message" id="challengeFeedback" style="display:none;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quiz Tab Content -->
+          <div class="panelTabContent" id="tabContentQuiz" style="display:none;">
+            <div class="panel">
+              <h3>📝 اختبار تحدي نافس</h3>
+              <div id="quizContainer"></div>
+            </div>
+          </div>
+
+          <!-- Badges and Leaderboard Content -->
+          <div class="panelTabContent" id="tabContentBadges" style="display:none;">
+            <div class="panel">
+              <h3>🏆 الشارات والإنجازات</h3>
+              <div class="badges-grid" id="badgesGrid"></div>
+            </div>
+            <div class="panel" id="groupLeaderboardPanel" style="display:none;">
+              <h3>👥 لوحة ترتيب المجموعات</h3><select class="search" id="groupPick" style="width:100%;margin-bottom:8px" onchange="activeGroup=+this.value;renderBadges()"></select>
+              <table class="leader-table">
+                <thead><tr><th>المجموعة</th><th>النقاط</th></tr></thead>
+                <tbody id="leaderboardBody"></tbody>
+              </table>
+            </div>
+            <div class="panel">
+              <h3>📊 تقرير المهارات المتقنة</h3>
+              <div id="skillsReport" style="font-size:12px; color:var(--muted);"></div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Notification -->
+<div class="toast" id="toast"></div>
+
+<!-- JavaScript Logic Implementation -->
+<script>
+"use strict";
+
+/* Default Initial Lessons */
+const DEFAULT_LESSONS = [
+  { id: "foodweb", name: "الشبكات الغذائية والتوازن البيئي", grade: "الصف السادس الابتدائي", type: "سحب وإفلات", icon: "🕸️", builtIn: true },
+  { id: "cells", name: "الخلايا وأجهزة جسم الإنسان", grade: "الصف السادس الابتدائي", type: "محاكاة تفاعلية", icon: "🧬" },
+  { id: "electric", name: "الدائرة الكهربائية التناظرية", grade: "الصف السادس الابتدائي", type: "محاكاة تفاعلية", icon: "💡" },
+  { id: "heredity", name: "الوراثة والصفات المكتسبة", grade: "الصف السادس الابتدائي", type: "سحب وإفلات", icon: "🌱" },
+  { id: "microbes", name: "المخلوقات الحية الدقيقة", grade: "الصف السادس الابتدائي", type: "محاكاة تفاعلية", icon: "🦠" },
+  { id: "movement", name: "الحركة والإحساس الاستجابي", grade: "الصف السادس الابتدائي", type: "محاكاة تفاعلية", icon: "🧠" }
+];
+
+/* Organisms Scientific Database */
+const ORGANISMS = {
+  grass: { name: "النباتات", emoji: "🌿", role: "منتِجات", type: "producer" },
+  grasshopper: { name: "الجراد", emoji: "🦗", role: "مستهلك أولي", type: "primary" },
+  rabbit: { name: "الأرنب", emoji: "🐇", role: "مستهلك أولي", type: "primary" },
+  mouse: { name: "الفأر", emoji: "🐭", role: "مستهلك أولي", type: "primary" },
+  frog: { name: "الضفدع", emoji: "🐸", role: "مستهلك ثانوي", type: "secondary" },
+  fox: { name: "الثعلب", emoji: "🦊", role: "مستهلك ثانوي", type: "secondary" },
+  owl: { name: "البومة", emoji: "🦉", role: "مستهلك ثانوي", type: "secondary" },
+  decomposer: { name: "المحللات", emoji: "🍄", role: "محللات", type: "decomposer" }
+};
+
+/* Default Scientific Food Web Edges (From food -> consumer) */
+const DEFAULT_EDGES = [
+  ["grass", "grasshopper"], ["grass", "rabbit"], ["grass", "mouse"],
+  ["grasshopper", "frog"], ["rabbit", "fox"], ["mouse", "owl"],
+  ["frog", "fox"], ["grasshopper", "owl"],
+  ["rabbit", "decomposer"], ["fox", "decomposer"], ["owl", "decomposer"]
+];
+
+/* Challenges Questions List */
+const CHALLENGES = [
+  {
+    q: "المستوى 1: حددي المنتِج الأساسي الذي يزود المنظومة بالطاقة الضوئية:",
+    options: ["الأرنب", "النباتات والأعشاب", "الثعلب", "الفطريات"],
+    correct: 1,
+    exp: "أحسنتِ! النباتات هي المنتِجات التي تصنع غذاءها بنفسها بعملية البناء الضوئي."
+  },
+  {
+    q: "المستوى 2: أي من المخلوقات التالية يعتبر مستهلكاً أولياً يتغذى مباشرة على الاعشاب؟",
+    options: ["البومة", "الضفدع", "الجراد", "المحللات"],
+    correct: 2,
+    exp: "ممتازة! الجراد والأرانب والفئران هي مستهلكات أولية (آكلات أعشاب)."
+  },
+  {
+    q: "المستوى 3: إذا أردنا تكوين سلسلة غذائية صحيحة، ما الترتيب الصحيح لمسار الطاقة؟",
+    options: ["ثعلب ← أرنب ← نبات", "نبات ← أرنب ← ثعلب", "أرنب ← نبات ← ثعلب", "محللات ← ثعلب ← نبات"],
+    correct: 1,
+    exp: "إجابة رائعة! تبدأ السلسلة دائماً بالمنتِج ثم المستهلك الأولي ثم الثانوي."
+  },
+  {
+    q: "المستوى 4: عند اكتشاف خطأ في اتجاه سهم الطاقة بين الضفدع والجراد، ما الاتجاه الصحيح؟",
+    options: ["من الجراد إلى الضفدع", "من الضفدع إلى الجراد", "لا يوجد سهم بينهما", "من المحللات إلى الجراد"],
+    correct: 0,
+    exp: "صحيح! تشير الأسهم دائماً من الكائن المأكول (الجراد) إلى الكائن الآكل (الضفدع)."
+  },
+  {
+    q: "المستوى 5: ما الدور الجوهري للمحللات (مثل الفطريات) في التوازن البيئي؟",
+    options: ["صنع الغذاء من الشمس", "افتراس المستهلكات الثانوية", "تحليل بقايا الكائنات وتدوير الأملاح للتربة", "التغذي على الأعشاب فقط"],
+    correct: 2,
+    exp: "أحسنتِ الاستدلال! تضمن المحللات إعادة التدوير البيئي وتغذية التربة."
+  }
+];
+
+/* Nafis Quiz Questions */
+const QUIZ_QUESTIONS = [
+  {
+    q: "1. قام أحد المزارعين برش مبيد حشري أدى لاختفاء الجراد تماماً من المزرعة. ما التأثير المباشر على الضفادع؟",
+    options: ["ستزداد أعدادها فوراً", "ستقل أعدادها لقلة مصدر غذائها الرئيسي", "ستتحول إلى منتِجات للغذاء", "لن تتأثر إطلاقاً"],
+    correct: 1,
+    exp: "التفسير: الضفدع يعتمد بشكل مباشر على الجراد كمصدر طاقة، فنقص الجراد يؤدي لقلة الغذاء المتاح."
+  },
+  {
+    q: "2. ما الفرق الجوهري بين السلسلة الغذائية والشبكة الغذائية؟",
+    options: [
+      "السلسلة تعبر عن تداخل عدة شبكات",
+      "الشبكة تظهر تداخل ومشاركات عدة سلاسل غذائية معاً",
+      "السلسلة لا تحتوي على كائنات منتجة",
+      "الشبكة تحتوي على المستهلكات الأولية فقط"
+    ],
+    correct: 1,
+    exp: "التفسير: الشبكة الغذائية نموذج شامل يوضح السلاسل الغذائية المتداخلة في النظام البيئي."
+  },
+  {
+    q: "3. في الشكل التفاعلي للمعمل، يشير سهم الطاقة بين الأرنب والثعلب من الأرنب إلى الثعلب. هذا يعبر عن:",
+    options: ["الثعلب ينقل الطاقة للأرنب", "الأرنب يفترس الثعلب", "انتقال الطاقة المخزنة من الأرنب إلى الثعلب عند التغذي عليه", "موت الثعلب بالأرنب"],
+    correct: 2,
+    exp: "التفسير: أسهم الطاقة تشير دائماً من الكائن الذي يُؤكل إلى الكائن الذي يتغذى عليه."
+  },
+  {
+    q: "4. في حالة حدوث جفاف شديد أدى لموت معظم النباتات، أي الكائنات ستتأثر أولاً؟",
+    options: ["المستهلكات الثانوية فقط", "المستهلكات الأولية (الأرانب، الجراد، الفئران)", "المحللات فقط", "لن يتأثر النظام البيئي"],
+    correct: 1,
+    exp: "التفسير: آكلات الأعشاب (المستهلكات الأولية) تضرب مباشرة لأنها تعتمد كلياً على المنتجات."
+  },
+  {
+    q: "5. تم إضافة عدد كبير جداً من الثعالب إلى هذا النظام البيئي. ما التوقع العلمي الأكثر منطقية للأرانب والنباتات؟",
+    options: [
+      "ستزداد الأرانب وتقل النباتات",
+      "ستقل الأرانب فتزداد النباتات والأعشاب",
+      "ستختفي النباتات وتزداد الأرانب",
+      "لن يتغير شيء"
+    ],
+    correct: 1,
+    exp: "التفسير: زيادة افتراس الثعالب تقلل الأرانب، مما يعطي فرصة للأعشاب للنمو والازدياد."
+  }
+];
+
+/* State Management */
+let lessons = loadFromStorage("scienceLabLessons_v2", DEFAULT_LESSONS);
+let userPoints = loadFromStorage("scienceLabPoints", 0);
+let unlockedBadges = new Set(loadFromStorage("scienceLabBadges", []));
+let labMode = loadFromStorage("scienceLabMode", "individual"); // 'individual' or 'group'
+let studentName = loadFromStorage("scienceLabStudent", "طالبة العلوم");
+let groups = loadFromStorage("scienceLabGroups", [
+  { name: "مجموعة الأبطال", points: 0 },
+  { name: "مجموعة العلماء", points: 0 },
+  { name: "مجموعة المبتكرات", points: 0 }
+]);
+
+let activeTab = "build";
+let activeEdges = [];
+const VALID = new Set(DEFAULT_EDGES.map(e => e.join(">")));
+let awarded50 = false;
+let activeGroup = 0;
+let missingOrganisms = new Set();
+let selectedOrganism = null;
+let currentChallengeIndex = 0;
+let quizAnswers = {};
+let isSoundEnabled = true;
+
+// Helper Functions
+function $(id) { return document.getElementById(id); }
+function loadFromStorage(key, fallback) {
+  try { const s = localStorage.getItem(key); return s ? JSON.parse(s) : fallback; }
+  catch(e) { return fallback; }
+}
+function saveToStorage(key, val) {
+  try { localStorage.setItem(key, JSON.stringify(val)); } catch(e){}
+}
+
+function showToast(msg) {
+  const t = $("toast");
+  t.innerHTML = `<span>✨</span> <span>${msg}</span>`;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 3000);
+}
+
+/* Audio Web API Synthesizer (No external assets required) */
+function playSound(type = "success") {
+  if (!isSoundEnabled) return;
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    if (type === "success") {
+      osc.frequency.setValueAtTime(440, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.15);
+      gain.gain.setValueAtTime(0.1, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+      osc.start(); osc.stop(ctx.currentTime + 0.15);
+    } else if (type === "warn") {
+      osc.type = "sawtooth";
+      osc.frequency.setValueAtTime(220, ctx.currentTime);
+      osc.frequency.linearRampToValueAtTime(110, ctx.currentTime + 0.2);
+      gain.gain.setValueAtTime(0.1, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
+      osc.start(); osc.stop(ctx.currentTime + 0.2);
+    } else if (type === "click") {
+      osc.frequency.setValueAtTime(600, ctx.currentTime);
+      gain.gain.setValueAtTime(0.05, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
+      osc.start(); osc.stop(ctx.currentTime + 0.05);
+    }
+  } catch(e){}
+}
+
+/* Add Points and Unlock Badges System */
+function addPoints(pts) {
+  userPoints += pts;
+  saveToStorage("scienceLabPoints", userPoints);
+  if (labMode === "group" && groups.length > 0) {
+    groups[Math.min(activeGroup, groups.length-1)].points += pts;
+    saveToStorage("scienceLabGroups", groups);
+  }
+  updateStatsDisplay();
+  checkBadgesEligibility();
+}
+
+function checkBadgesEligibility() {
+  let newlyUnlocked = false;
+  if (userPoints >= 10 && !unlockedBadges.has("b1")) { unlockedBadges.add("b1"); newlyUnlocked = true; }
+  if (activeEdges.length >= 8 && !unlockedBadges.has("b2")) { unlockedBadges.add("b2"); newlyUnlocked = true; }
+  if (currentChallengeIndex >= 3 && !unlockedBadges.has("b3")) { unlockedBadges.add("b3"); newlyUnlocked = true; }
+  if (Object.keys(quizAnswers).length >= 5 && !unlockedBadges.has("b4")) { unlockedBadges.add("b4"); newlyUnlocked = true; }
+
+  if (newlyUnlocked) {
+    saveToStorage("scienceLabBadges", Array.from(unlockedBadges));
+    showToast("مبروك! لقد حصلتِ على شارة إنجاز جديدة 🏆");
+    playSound("success");
+  }
+  renderBadges();
+}
+
+function updateStatsDisplay() {
+  $("statLessons").textContent = lessons.length;
+  $("statPoints").textContent = userPoints;
+  $("statBadges").textContent = `${unlockedBadges.size} / 4`;
+  $("statGroupCount").textContent = labMode === "group" ? `${groups.length} مجموعات` : `طالبة واحدة (${studentName})`;
+  $("modeBadge").textContent = labMode === "group" ? "👥 وضع التعلم الجماعي" : `👤 وضع الطالبة: ${studentName}`;
+  if ($("currentPointsDisplay")) $("currentPointsDisplay").textContent = `النقاط: ${userPoints}`;
+}
+
+/* Main Dashboard Lessons Renderer */
+function renderLessons() {
+  const query = $("searchInput").value.trim().toLowerCase();
+  const filter = $("typeFilter").value;
+  const filtered = lessons.filter(l => l.name.toLowerCase().includes(query) && (filter === "all" || l.type === filter));
+
+  const grid = $("lessonGrid");
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="empty">لا توجد دروس مطابقة لخيارات البحث. يمكنك إضافة درس جديد.</div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(l => `
+    <article class="lesson">
+      <div class="lesson-banner">
+        <span class="lesson-emoji">${l.icon || '🔬'}</span>
+        <span class="tag">${l.type}</span>
+      </div>
+      <div class="lesson-body">
+        <h3>${l.name}</h3>
+        <div class="lesson-meta">
+          <span>🎓 ${l.grade || 'الصف السادس'}</span>
+          <span>🧪 محاكاة تفاعلية</span>
+        </div>
+      </div>
+      <div class="lesson-actions">
+        <button class="btn btn-primary" onclick="launchLab('${l.id}')">▶ دخول المعمل</button>
+        <button class="btn btn-outline" onclick="showToast('معمل ${l.name} جاهز ومتاح للطلاب.')">📖 الدليل</button>
+        ${!l.builtIn ? `<button class="btn btn-danger" onclick="deleteLesson('${l.id}')">حذف</button>` : ''}
+      </div>
+    </article>
+  `).join("");
+}
+
+function launchLab(id) {
+  playSound("click");
+  $("labModal").classList.add("show");
+  drawNetwork();
+  renderTabContent();
+}
+
+/* Modals Handlers */
+$("addLessonBtn").onclick = () => { $("lessonModal").classList.add("show"); };
+$("closeLessonModalBtn").onclick = () => { $("lessonModal").classList.remove("show"); };
+$("saveLessonBtn").onclick = () => {
+  const name = $("lessonName").value.trim();
+  if (!name) return showToast("يرجى إدخال اسم الدرس أولاً");
+  lessons.unshift({ id: "lesson-" + Date.now(), name, grade: "الصف السادس الابتدائي", type: $("lessonType").value, icon: $("lessonIcon").value || "🔬" });
+  saveToStorage("scienceLabLessons_v2", lessons);
+  renderLessons();
+  updateStatsDisplay();
+  $("lessonModal").classList.remove("show");
+  showToast("تم حفظ الدرس الجديد في الذاكرة بنجاح");
+};
+
+$("guideBtn").onclick = () => { $("guideModal").classList.add("show"); };
+$("closeGuideModalBtn").onclick = () => { $("guideModal").classList.remove("show"); };
+
+$("toggleLabModeBtn").onclick = () => { $("modeModal").classList.add("show"); };
+$("closeModeModalBtn").onclick = () => { $("modeModal").classList.remove("show"); };
+$("userModeSelect").onchange = (e) => {
+  const isGrp = e.target.value === "group";
+  $("groupInputContainer").style.display = "block";
+  $("groupNamesField").style.display = isGrp ? "block" : "none";
+};
+$("saveModeBtn").onclick = () => {
+  labMode = $("userModeSelect").value;
+  studentName = $("studentNameInput").value.trim() || "طالبة العلوم";
+  saveToStorage("scienceLabMode", labMode);
+  saveToStorage("scienceLabStudent", studentName);
+  
+  if (labMode === "group") {
+    const rawGrps = $("groupNamesInput").value.split(",");
+    groups = rawGrps.map(g => ({ name: g.trim(), points: 0 })).filter(g => g.name);
+    saveToStorage("scienceLabGroups", groups);
+  }
+  updateStatsDisplay();
+  $("modeModal").classList.remove("show");
+  showToast("تم تحديث وضع التعلم والإعدادات");
+};
+
+$("resetLessonsBtn").onclick = () => {
+  if (confirm("هل تريد استعادة قائمة الدروس الافتراضية؟")) {
+    lessons = DEFAULT_LESSONS.map(x => ({...x}));
+    saveToStorage("scienceLabLessons_v2", lessons);
+    renderLessons();
+    updateStatsDisplay();
+    showToast("تمت استعادة الدروس الافتراضية");
+  }
+};
+
+$("searchInput").oninput = renderLessons;
+$("typeFilter").onchange = renderLessons;
+$("labModeBtn").onclick = () => $("modeModal").classList.add("show");
+$("labGuideBtn").onclick = () => $("guideModal").classList.add("show");
+$("soundToggleBtn").onclick = () => {
+  isSoundEnabled = !isSoundEnabled;
+  $("soundToggleBtn").textContent = isSoundEnabled ? "🔊 الصوت: مفعل" : "🔇 الصوت: مكتوم";
+};
+
+/* Interactive SVG Canvas & Dragging Engine */
+function drawNetwork() {
+  const svgGroup = $("edgeLayer");
+  svgGroup.innerHTML = "";
+  const canvas = $("ecoCanvas");
+  const rect = canvas.getBoundingClientRect();
+  const w = rect.width || 700;
+  const h = rect.height || 480;
+  $("edgeSvg").setAttribute("viewBox", `0 0 ${w} ${h}`);
+
+  activeEdges.forEach(([src, target]) => {
+    if (missingOrganisms.has(src) || missingOrganisms.has(target)) return;
+    const elA = canvas.querySelector(`[data-id="${src}"]`);
+    const elB = canvas.querySelector(`[data-id="${target}"]`);
+    if (!elA || !elB) return;
+
+    const ax = (parseFloat(elA.style.left) / 100) * w;
+    const ay = (parseFloat(elA.style.top) / 100) * h;
+    const bx = (parseFloat(elB.style.left) / 100) * w;
+    const by = (parseFloat(elB.style.top) / 100) * h;
+
+    const dx = bx - ax;
+    const dy = by - ay;
+    const len = Math.hypot(dx, dy) || 1;
+    const offset = 42;
+
+    const x1 = ax + (dx / len) * offset;
+    const y1 = ay + (dy / len) * offset;
+    const x2 = bx - (dx / len) * offset;
+    const y2 = by - (dy / len) * offset;
+
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", `M ${x1} ${y1} L ${x2} ${y2}`);
+    path.setAttribute("class", "edge");
+    svgGroup.appendChild(path);
+  });
+
+  // Highlight creatures status
+  document.querySelectorAll(".creature").forEach(el => {
+    const id = el.dataset.id;
+    el.classList.toggle("selected", selectedOrganism === id);
+    el.classList.toggle("missing", missingOrganisms.has(id));
+  });
+
+  renderRelationshipsList();
+}
+
+function renderRelationshipsList() {
+  const list = $("relationshipList");
+  const visibleEdges = activeEdges.filter(([a,b]) => !missingOrganisms.has(a) && !missingOrganisms.has(b));
+  
+  if (visibleEdges.length === 0) {
+    list.innerHTML = `<div style="font-size:12px; color:var(--muted); padding:8px;">لم ترسمي أي علاقة بعد.</div>`;
+    return;
+  }
+
+  list.innerHTML = visibleEdges.map(([a,b]) => { const index = activeEdges.findIndex(e => e[0]===a && e[1]===b); return `
+    <div class="organism-row">
+      <span>${ORGANISMS[a].emoji} ${ORGANISMS[a].name}</span>
+      <b style="color:var(--purple);">← تنقل الطاقة إلى ←</b>
+      <span>${ORGANISMS[b].emoji} ${ORGANISMS[b].name}</span>
+      <button class="btn btn-danger btn-sm" onclick="removeEdge(${index})">✕</button>
+    </div>
+  `; }).join("");
+}
+
+function removeEdge(index) {
+  activeEdges.splice(index, 1);
+  drawNetwork();
+  playSound("click");
+  showToast("تم حذف العلاقة الغذائية");
+}
+
+/* Drag and Drop Nodes Logic */
+let draggedElem = null;
+document.querySelectorAll(".creature").forEach(el => {
+  // Touch & Pointer Drag
+  el.addEventListener("pointerdown", (e) => {
+    if (activeTab === "balance") return;
+    draggedElem = el;
+    el.setPointerCapture(e.pointerId);
+  });
+
+  el.addEventListener("pointermove", (e) => {
+    if (!draggedElem || draggedElem !== el) return;
+    const canvas = $("ecoCanvas");
+    const rect = canvas.getBoundingClientRect();
+    let x = ((e.clientX - rect.left) / rect.width) * 100;
+    let y = ((e.clientY - rect.top) / rect.height) * 100;
+    x = Math.max(8, Math.min(92, x));
+    y = Math.max(8, Math.min(92, y));
+    el.style.left = x + "%";
+    el.style.top = y + "%";
+    drawNetwork();
+  });
+
+  el.addEventListener("pointerup", (e) => {
+    if (draggedElem === el) {
+      draggedElem = null;
+      try { el.releasePointerCapture(e.pointerId); } catch(err){}
+    }
+  });
+
+  // Direct Click for Connection
+  el.addEventListener("click", () => {
+    const id = el.dataset.id;
+    if (missingOrganisms.has(id)) return;
+
+    if (activeTab === "balance") {
+      toggleOrganismState(id);
+      return;
+    }
+
+    if (!selectedOrganism) {
+      selectedOrganism = id;
+      $("buildFeedback").className = "message";
+      $("buildFeedback").textContent = `تم اختيار (${ORGANISMS[id].name}). الآن انقر على الكائن الذي يتغذى عليه لنقل الطاقة.`;
+      playSound("click");
+    } else if (selectedOrganism === id) {
+      selectedOrganism = null;
+      $("buildFeedback").textContent = "تم إلغاء التحديد.";
+    } else {
+      const src = selectedOrganism;
+      const target = id;
+      selectedOrganism = null;
+
+      // Validate scientific connection direction
+      const isValid = validateFoodRelation(src, target);
+      if (isValid) {
+        if (!activeEdges.some(([a,b]) => a === src && b === target)) {
+          activeEdges.push([src, target]);
+          addPoints(10);
+          $("buildFeedback").className = "message good";
+          $("buildFeedback").textContent = `ممتاز! علاقة صحيحة: تنتقل الطاقة من ${ORGANISMS[src].name} إلى ${ORGANISMS[target].name}. (+10 نقاط) · أنجزتِ ${activeEdges.length} من ${VALID.size}`;
+          playSound("success");
+        } else {
+          $("buildFeedback").className = "message warn";
+          $("buildFeedback").textContent = "هذه العلاقة الغذائية موجودة بالفعل في الشبكة.";
+        }
+      } else {
+        $("buildFeedback").className = "message danger";
+        $("buildFeedback").textContent = (VALID.has(target + ">" + src) ? `الاتجاه معكوس! السهم يخرج من الكائن المأكول (${ORGANISMS[target].name}) إلى الآكل (${ORGANISMS[src].name}).` : `لا توجد علاقة تغذٍّ مباشرة بين ${ORGANISMS[src].name} و ${ORGANISMS[target].name}. فكري: من يأكل من؟`);
+        playSound("warn");
+      }
+    }
+    drawNetwork();
+  });
+});
+
+function validateFoodRelation(src, target) {
+  return VALID.has(src + ">" + target);
+}
+function validateFoodRelationOld(src, target) {
+  // Producers feed primary consumers
+  if (ORGANISMS[src].type === "producer" && ORGANISMS[target].type === "primary") return true;
+  // Primary consumers feed secondary consumers
+  if (ORGANISMS[src].type === "primary" && ORGANISMS[target].type === "secondary") return true;
+  // Secondary / Primary feed decomposers
+  if (target === "decomposer" && src !== "decomposer") return true;
+  return false;
+}
+
+$("showAnswerBtn").onclick = () => { activeEdges = DEFAULT_EDGES.map(e => [...e]); selectedOrganism = null; drawNetwork(); showToast("هذه الشبكة الكاملة للمقارنة"); };
+$("resetNetworkBtn").onclick = () => {
+  activeEdges = [];
+  missingOrganisms.clear();
+  selectedOrganism = null;
+  drawNetwork();
+  showToast("تم إعادة ضبط الشبكة إلى الوضع الافتراضي");
+};
+$("clearSelectBtn").onclick = () => { selectedOrganism = null; drawNetwork(); };
+
+/* Eco-Balance Simulation Scenarios */
+function toggleOrganismState(id) {
+  if (missingOrganisms.has(id)) {
+    missingOrganisms.delete(id);
+    showToast(`تمت إعادة ${ORGANISMS[id].name} للشبكة`);
+  } else {
+    missingOrganisms.add(id);
+    showToast(`تم إخفاء ${ORGANISMS[id].name}`);
+  }
+  drawNetwork();
+  explainBalanceEffect(id);
+}
+
+function runScenario(id) {
+  missingOrganisms.clear();
+  missingOrganisms.add(id);
+  drawNetwork();
+  explainBalanceEffect(id);
+  playSound("warn");
+}
+
+function explainBalanceEffect(id) {
+  const box = $("balanceExplanation");
+  let exp = "";
+  switch(id) {
+    case "rabbit":
+      exp = "عند اختفاء الأرانب: تزيد نسبة الأعشاب المتاحة للجراد والفئران، ولكن الثعالب تفقد أحد مصادر غذائها الرئيسية مما ينقص أعدادها تدريجياً.";
+      break;
+    case "grasshopper":
+      exp = "عند اختفاء الجراد: تتأثر الضفادع والبوم لقلة المستهلكات الأولية، وتنمو النباتات بشكل أكبر لقلة الرعي.";
+      break;
+    case "grass":
+      exp = "عند نقص النباتات: ينهار النظام البيئي لأن النباتات هي المصدر الأساسي لإنتاج الطاقة لكل المستهلكات الأولية والثانوية.";
+      break;
+    case "fox":
+      exp = "عند اختفاء الثعالب: تزداد أعداد الأرانب والضفادع بدرجة كبيرة مما قد يؤدي لاستهلاك متزايد للأعشاب والجراد خللاً بالتوازن.";
+      break;
+    case "decomposer":
+      exp = "عند اختفاء المحللات: تتراكم بقايا الكائنات الميتة وتفقد التربة الأملاح المعدنية الضرورية لنمو النباتات الجديدة.";
+      break;
+    default:
+      exp = `تغيير في وجود ${ORGANISMS[id].name} يؤثر على الكائنات المرتبطة به في نقل الطاقة.`;
+  }
+  box.textContent = exp;
+}
+
+/* Tabs Switcher Logic */
+document.querySelectorAll(".tab").forEach(tab => {
+  tab.onclick = () => {
+    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+    tab.classList.add("active");
+    activeTab = tab.dataset.tab;
+    renderTabContent();
+    playSound("click");
+  };
+});
+
+function renderTabContent() {
+  document.querySelectorAll(".panelTabContent").forEach(c => c.style.display = "none");
+  if (activeTab === "build") $("tabContentBuild").style.display = "block";
+  if (activeTab === "balance") $("tabContentBalance").style.display = "block";
+  if (activeTab === "challenge") { $("tabContentChallenge").style.display = "block"; renderChallenge(); }
+  if (activeTab === "quiz") { $("tabContentQuiz").style.display = "block"; renderQuiz(); }
+  if (activeTab === "badges") { $("tabContentBadges").style.display = "block"; renderBadges(); }
+}
+
+/* Challenges Implementation */
+function renderChallenge() {
+  const ch = CHALLENGES[currentChallengeIndex];
+  if (!ch) {
+    $("challengeBox").innerHTML = `<div class="message good">🎉 مبروك! لقد أتممتِ كافة تحديات العالمة الصغيرة بنجاح! (+50 نقطة إضافية)</div>`;
+    if (!awarded50) { awarded50 = true; addPoints(50); }
+    return;
+  }
+  $("challengeQuestion").textContent = ch.q;
+  const optsContainer = $("challengeOptions");
+  optsContainer.innerHTML = ch.options.map((opt, i) => `
+    <button class="quiz-option" onclick="checkChallengeAnswer(${i})">${opt}</button>
+  `).join("");
+  $("challengeFeedback").style.display = "none";
+}
+
+function checkChallengeAnswer(index) {
+  const ch = CHALLENGES[currentChallengeIndex];
+  const fb = $("challengeFeedback");
+  fb.style.display = "block";
+  if (index === ch.correct) {
+    fb.className = "message good";
+    fb.textContent = ch.exp;
+    addPoints(15);
+    playSound("success");
+    setTimeout(() => {
+      currentChallengeIndex++;
+      renderChallenge();
+    }, 2200);
+  } else {
+    fb.className = "message danger";
+    fb.textContent = "إجابة تحتاج مراجعة. فكري جيداً في اتجاه نقل الطاقة ودور الكائن الحية.";
+    playSound("warn");
+  }
+}
+
+/* Quiz Implementation */
+function renderQuiz() {
+  const container = $("quizContainer");
+  container.innerHTML = QUIZ_QUESTIONS.map((q, qIndex) => `
+    <div style="margin-bottom:18px; border-bottom:1px solid var(--line); padding-bottom:12px;">
+      <p style="font-weight:bold; font-size:13px; margin:0 0 8px; color:var(--navy);">${q.q}</p>
+      ${q.options.map((opt, oIndex) => {
+        const isAns = quizAnswers[qIndex] === oIndex;
+        const isCorrect = oIndex === q.correct;
+        let cls = "quiz-option";
+        if (quizAnswers[qIndex] !== undefined) {
+          if (isCorrect) cls += " correct";
+          else if (isAns) cls += " wrong";
+        }
+        return `<button class="${cls}" onclick="answerQuiz(${qIndex}, ${oIndex})">${opt}</button>`;
+      }).join("")}
+      ${quizAnswers[qIndex] !== undefined ? `<div class="message ${quizAnswers[qIndex]===q.correct?'good':'warn'}" style="font-size:11.5px; margin-top:6px;">${q.exp}</div>` : ''}
+    </div>
+  `).join("");
+}
+
+function answerQuiz(qIndex, oIndex) {
+  if (quizAnswers[qIndex] !== undefined) return;
+  quizAnswers[qIndex] = oIndex;
+  if (oIndex === QUIZ_QUESTIONS[qIndex].correct) {
+    addPoints(5);
+    playSound("success");
+  } else {
+    playSound("warn");
+  }
+  renderQuiz();
+}
+
+/* Badges Renderer */
+function renderBadges() {
+  const badges = [
+    { id: "b1", icon: "🌱", title: "مستكشفة العلوم", desc: "جمعتِ أول 10 نقاط" },
+    { id: "b2", icon: "🕸️", title: "مهندسة الشبكات", desc: "كونتِ 8 علاقات غذائية" },
+    { id: "b3", icon: "⭐", title: "العالمة الصغيرة", desc: "اجتزتِ 3 تحديات" },
+    { id: "b4", icon: "🌿", title: "خبيرة التوازن", desc: "أكملتِ اختبار نافس" }
+  ];
+
+  $("badgesGrid").innerHTML = badges.map(b => `
+    <div class="badge-card ${unlockedBadges.has(b.id) ? 'unlocked' : ''}">
+      <div class="badge-icon">${b.icon}</div>
+      <div class="badge-title">${b.title}</div>
+      <small style="font-size:9.5px; color:var(--muted);">${b.desc}</small>
+    </div>
+  `).join("");
+
+  // Group Leaderboard
+  if (labMode === "group") {
+    $("groupLeaderboardPanel").style.display = "block";
+    $("groupPick").innerHTML = groups.map((g,i)=>`<option value="${i}" ${i===activeGroup?"selected":""}>النقاط تُحتسب لـ: ${g.name}</option>`).join("");
+    const sorted = [...groups].sort((a,b) => b.points - a.points);
+    $("leaderboardBody").innerHTML = sorted.map(g => `
+      <tr><td>${g.name}</td><td><b>${g.points}</b> ن</td></tr>
+    `).join("");
+  } else {
+    $("groupLeaderboardPanel").style.display = "none";
+  }
+
+  // Skills Report
+  $("skillsReport").innerHTML = `
+    <ul style="padding-right:16px; margin:4px 0;">
+      <li><b>تحديد المنتجات والمستهلكات:</b> ${userPoints>=10 ? '✅ إتقان تام' : '⏳ قيد التدريب'}</li>
+      <li><b>بناء أسهم نقل الطاقة:</b> ${activeEdges.length>=6 ? '✅ إتقان تام' : '⏳ قيد التدريب'}</li>
+      <li><b>تحليل سيناريوهات التوازن البيئي:</b> ${unlockedBadges.has("b4") ? '✅ إتقان تام' : '⏳ قيد التدريب'}</li>
+    </ul>
+  `;
+}
+
+/* App Initialization */
+window.addEventListener("resize", drawNetwork);
+window.onload = () => {
+  renderLessons();
+  updateStatsDisplay();
+  launchLab("foodweb");
+  setTimeout(drawNetwork, 100);
+};
+</script>
+</body>
+</html>
